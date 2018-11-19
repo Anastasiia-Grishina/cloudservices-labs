@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Bucket - {{ bucket_name }}{% endblock %}</h1>
-  <button type="button" class="btn btn-primary btn-lg">Upload New File <span class="glyphicon glyphicon-plus-sign"></span></button>
-
-<br />
+	<h1>{% block title %}Bucket - {{ bucket_name }}{% endblock %}</h1>
+	<form id="file-upload" action={{ url_for('bucket', name=bucket_name) }} method="POST" enctype="multipart/form-data">
+		<button id="upload-btn" type="button" class="btn btn-primary btn-block">Upload New File <span class="glyphicon glyphicon-plus-sign"></span></button>
+		<div hidden>{{ form.file }}</div>
+		{{ form.filepath }}
+	</form>
 {% endblock %}
 
 
@@ -18,8 +20,25 @@
 			</div>
 			&nbsp;
 	    	{{ file.name }}
-
 	    </li>
 	    {% endfor %}
 	</ul>
+
+	
+{% endblock %}
+
+{% block scripts %}
+  	{{ super() }}
+  	<script type="text/javascript">
+	$(function(){		
+		$('#upload-btn').click(function(){
+			$('input#file').click();
+		});
+
+		$('input#file').change(function(){
+			$('form#file-upload').submit();
+		});
+	});
+
+	</script>
 {% endblock %}
