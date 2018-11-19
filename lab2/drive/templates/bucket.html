@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Bucket - {{ bucket_name }}{% endblock %}</h1>
+{% endblock %}
+
+
+{% block app_content %}
+	<ul class="list-group">
+		{% for file in files %}
+	    <li class="list-group-item">
+	    	<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+				<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-download-alt"></span></button>
+				<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+			</div>
+			&nbsp;
+	    	{{ file.name }}
+
+	    </li>
+	    {% endfor %}
+	</ul>
+{% endblock %}

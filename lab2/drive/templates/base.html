@@ -1,0 +1,31 @@
+{% extends 'bootstrap/base.html' %}
+
+<!-- <head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+ -->
+{% block title %}
+    {% if title %}{{ title }} - Drive{% else %}Welcome to Drive{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+      TODO: Link to home
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block header %}{% endblock %}
+
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
