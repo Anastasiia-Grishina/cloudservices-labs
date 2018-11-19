@@ -2,6 +2,9 @@
 
 {% block header %}
   <h1>{% block title %}Bucket - {{ bucket_name }}{% endblock %}</h1>
+  <button type="button" class="btn btn-primary btn-lg">Upload New File <span class="glyphicon glyphicon-plus-sign"></span></button>
+
+<br />
 {% endblock %}
 
 
@@ -10,8 +13,8 @@
 		{% for file in files %}
 	    <li class="list-group-item">
 	    	<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-				<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-download-alt"></span></button>
-				<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+				<a type="button" href={{ url_for('download_file', bucket_name=bucket_name, file_name=file.name) }} class="btn btn-success"><span class="glyphicon glyphicon-download-alt"></span></a>
+				<a type="button" href={{ url_for('delete_file', bucket_name=bucket_name, file_name=file.name) }} class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
 			</div>
 			&nbsp;
 	    	{{ file.name }}
