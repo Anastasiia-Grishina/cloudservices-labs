@@ -6,7 +6,7 @@
 
 {% block navbar %}
     <nav class="navbar navbar-default">
-      <a class="navbar-brand" href="#">Drive</a>
+      <a class="navbar-brand" href={{ url_for('buckets_list', region_name="global") }}>Drive</a>
     </nav>
 {% endblock %}
 
