@@ -1,4 +1,4 @@
-import boto3
+from flask import session
 
-s3 = boto3.client('s3')
-ec2 = boto3.client('ec2')
+def switch_regions(region_name):
+	session['region'] = region_name

@@ -36,7 +36,7 @@
 					<a type="button" href={{ url_for('delete_bucket', bucket_name=bucket.name, region_name=region_name) }} class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
 				</div>
 				&nbsp;
-		    	<a href={{ url_for('bucket', name=bucket.name) }}>{{ bucket.name }}</a>
+		    	<a href={{ url_for('bucket', name=bucket.name, region_name=bucket.bucket_location) }}>{{ bucket.name }}</a>
 		    </li>
 		    {% endfor %}
 		</ul>
