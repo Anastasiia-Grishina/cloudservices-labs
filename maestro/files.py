@@ -1,7 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, url_for, abort, Markup, session
-from drive import app
-from drive.config import switch_regions
-from drive.forms import UploadForm
+from maestro import app
+from maestro.config import switch_regions
+from maestro.forms import UploadForm
 from werkzeug.utils import secure_filename
 from time import time
 import boto3

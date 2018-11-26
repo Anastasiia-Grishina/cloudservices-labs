@@ -8,5 +8,5 @@ app.secret_key = 'SOSECRET!!!'
 # bootstrap
 bootstrap = Bootstrap(app)
 
-import drive.buckets
-import drive.files
+import maestro.storage
+import maestro.dashboard
