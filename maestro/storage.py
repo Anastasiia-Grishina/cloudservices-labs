@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, render_template, request, url_for, abort, Markup, session
 from maestro import app
-from maestro.config import switch_regions
+from maestro.helpers import switch_regions
 from werkzeug.utils import secure_filename
 from maestro.forms import UploadForm
 from werkzeug.utils import secure_filename

@@ -9,4 +9,5 @@ app.secret_key = 'SOSECRET!!!'
 bootstrap = Bootstrap(app)
 
 import maestro.storage
+import maestro.compute
 import maestro.dashboard
