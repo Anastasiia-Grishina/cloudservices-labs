@@ -21,11 +21,11 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span> Region <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span> {{ get_current_region() }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
+                        {% for region in get_regions_list() %}
+                            <li><a href={{ url_for('change_region', region=region) }}>{{ region }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
             </ul>

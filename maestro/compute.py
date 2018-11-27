@@ -83,7 +83,6 @@ def node_details(node_id):
 	pretty_node = { 'id': node_id, 'name': node.name, 'state': node.extra['status'], 'type': node.extra['instance_type'], 'zone': node.extra['availability'], 'private_ips': node.private_ips, 'public_ips': node.public_ips, 'private_dns': node.extra['private_dns'], 'public_dns': node.extra['dns_name'], 'security_groups': node.extra['groups'], 'image_id': node.extra['image_id'], 'key': node.extra['key_name']}
 
 
-
 	return render_template('node-details.html', node=pretty_node)
 
 
