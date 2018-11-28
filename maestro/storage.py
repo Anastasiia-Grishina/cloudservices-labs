@@ -48,7 +48,7 @@ def delete_bucket(region_name, bucket_name):
 	bucket_location = s3.get_bucket_location(Bucket=bucket_name)['LocationConstraint']
 	switch_regions(bucket_location)
 
-	local_resource = boto3.resource('s3', region_name=session['region'])
+	local_resource = boto3.resource('s3', region_name=session['current_region'])
 
 
 	# delete all objects in bucket first
@@ -79,7 +79,7 @@ def create_bucket():
 		region_name = request.form['region-name']
 
 		switch_regions(region_name)
-		local_client = boto3.client('s3', region_name=session['region'])
+		local_client = boto3.client('s3', region_name=session['current_region'])
 		try:
 			response = local_client.create_bucket(Bucket=bucket_name, 
 								CreateBucketConfiguration={'LocationConstraint': region_name})
@@ -99,7 +99,7 @@ def bucket(bucket_name):
 	region_name = request.args['region_name']
 
 	switch_regions(region_name)
-	local_client = boto3.client('s3', region_name=session['region'])
+	local_client = boto3.client('s3', region_name=session['current_region'])
 
 	response = local_client.list_objects(Bucket=bucket_name)
 	file_list = []
@@ -111,7 +111,7 @@ def bucket(bucket_name):
 
 @app.route('/storage/upload-file/<bucket_name>', methods=['POST'])
 def upload_file(bucket_name):
-	local_client = boto3.client('s3', region_name=session['region'])
+	local_client = boto3.client('s3', region_name=session['current_region'])
 
 	form = UploadForm()
 	f = form.file.data
@@ -126,13 +126,13 @@ def upload_file(bucket_name):
 
 	flash(Markup('Successfully uploaded <b>{}</b> (<i>{} seconds</i>)'.format(filename, dt)))
 
-	return redirect(url_for('bucket', bucket_name=bucket_name, region_name=session['region']))
+	return redirect(url_for('bucket', bucket_name=bucket_name, region_name=session['current_region']))
 
 
 @app.route('/storage/download/<bucket_name>/<file_name>')
 def download_file(bucket_name, file_name):
 	
-	local_client = boto3.client('s3', region_name=session['region'])
+	local_client = boto3.client('s3', region_name=session['current_region'])
 
 	t1 = time()
 
@@ -144,12 +144,12 @@ def download_file(bucket_name, file_name):
 
 	flash(Markup('Successfully downloaded <b>{}</b> (<i>{} seconds</i>)'.format(file_name, dt)))
     
-	return redirect(url_for('bucket', bucket_name=bucket_name, region_name=session['region']))
+	return redirect(url_for('bucket', bucket_name=bucket_name, region_name=session['current_region']))
 
 
 @app.route('/storage/delete-file/<bucket_name>/<file_name>')
 def delete_file(bucket_name, file_name):
-	local_client = boto3.client('s3', region_name=session['region'])
+	local_client = boto3.client('s3', region_name=session['current_region'])
 
 	t1 = time()
 
@@ -160,4 +160,4 @@ def delete_file(bucket_name, file_name):
 
 	flash(Markup('Successfully deleted <b>{}</b> (<i>{} seconds</i>)'.format(file_name, dt)))
     
-	return redirect(url_for('bucket', bucket_name=bucket_name, region_name=session['region']))
+	return redirect(url_for('bucket', bucket_name=bucket_name, region_name=session['current_region']))
