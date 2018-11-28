@@ -3,6 +3,8 @@ from maestro import app
 
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
+import boto3
+from datetime import datetime, timedelta
 
 from maestro.helpers import get_credentials
 
@@ -14,7 +16,7 @@ def nodes_list():
 # # both display and handle form submit, then redirect to nodes_list
 # @app.route('/compute/create-node', methods=['GET', 'POST'])
 # def create_node(params?):
-# 	return render_template('create-node.html')
+#	 return render_template('create-node.html')
 
 
 
@@ -75,7 +77,7 @@ def node_details(node_id):
 	# TODO select region from session
 	cls = get_driver(Provider.EC2)
 	access_id, access_key = get_credentials()
-	driver = cls(access_id, access_key, region='eu-west-1')
+	driver = cls(access_id, access_key, region=session['current_region'])
 
 	# check for error?
 	node = driver.list_nodes(ex_node_ids=[node_id])[0]
@@ -84,6 +86,61 @@ def node_details(node_id):
 
 
 	return render_template('node-details.html', node=pretty_node)
+
+
+
+@app.route('/compute/node-stats/<node_id>')
+def node_stats(node_id):
+
+	# TODO select region from session
+	cls = get_driver(Provider.EC2)
+	access_id, access_key = get_credentials()
+	driver = cls(access_id, access_key, region=session['current_region'])
+
+	# check for error?
+	node = driver.list_nodes(ex_node_ids=[node_id])[0]
+
+	pretty_node = { 'id': node_id, 'name': node.name }
+	stats = { 'cpu': { }, 'network_in': { 'data': [], 'labels': [] }, 'network_out': { 'data': [], 'labels': [] }, 'disk_read': { 'data': [], 'labels': [] }, 'disk_write': { 'data': [], 'labels': [] } }
+
+	metrics = ['CPUUtilization', 'NetworkIn', 'NetworkOut', 'DiskReadBytes', 'DiskWriteBytes']
+	query = []
+
+	for m in metrics:
+		query.append({
+			'Id': 'metric_'+m,
+			'MetricStat': {
+				'Metric': {
+					'Namespace': 'AWS/EC2',
+					'MetricName': m,
+					'Dimensions': [
+						{
+							'Name': 'InstanceId',
+							'Value': node_id
+						},
+					]
+				},
+				'Period': 60,
+				'Stat': 'Average',
+			}
+		})
+
+	cloudwatch = boto3.client('cloudwatch', region_name=session['current_region'])
+	response = cloudwatch.get_metric_data(
+		MetricDataQueries=query,
+		StartTime=datetime.now() - timedelta(hours=2),
+		EndTime=datetime.now(),
+		ScanBy='TimestampAscending'
+	)
+
+	for metric in response['MetricDataResults']:
+		index = metrics.index(metric['Label'])
+		key = [*stats][index]
+
+		stats[key]['data'] = metric['Values']
+		stats[key]['labels'] = [ t.strftime('%d-%m-%Y %H:%M') for t in metric['Timestamps'] ]
+
+	return render_template('node-stats.html', node=pretty_node, stats=stats)
 
 
 

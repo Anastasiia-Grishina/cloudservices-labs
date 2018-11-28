@@ -12,6 +12,6 @@ bootstrap = Bootstrap(app)
 import maestro.helpers
 
 
+import maestro.dashboard
 import maestro.compute
 import maestro.storage
-import maestro.dashboard
