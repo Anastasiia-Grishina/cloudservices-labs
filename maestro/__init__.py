@@ -1,6 +1,5 @@
 from flask import Flask, session
 from flask_bootstrap import Bootstrap
-import sys
 
 app = Flask(__name__)
 
@@ -10,8 +9,6 @@ app.secret_key = 'SOSECRET!!!'
 bootstrap = Bootstrap(app)
 
 import maestro.helpers
-
-
-import maestro.dashboard
 import maestro.compute
 import maestro.storage
+import maestro.dashboard

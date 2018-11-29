@@ -11,21 +11,6 @@
 
 
 {% block app_content %}
-	<h2>Region</h2>
-	<div class="dropdown">
-		<button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" 
-				aria-haspopup="true" aria-expanded="false">
-	    	{{ region_name }} <span class="caret"></span>
-	  	</button>
-	  	<ul class="dropdown-menu">
-	  		{% for region in regions %}
-	    		<li role="presentation" class="dropdown" style="width: 100%; min-width: 100%">
-	    			<a href={{ url_for('buckets_list', region_name=region.name) }}>{{ region.name }}</a>
-	    		</li>
-	    	{% endfor %}
-	  	</ul>
-	</div>
-	<br>
 
 	<h2>Available buckets</h2>
 	<div>

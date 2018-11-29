@@ -5,28 +5,28 @@
 	<h4>{{ node.id }}</h4>
 
 	<h4>
-		{% if node['state'] == 'running' %}
-			<span class="glyphicon glyphicon-ok-sign text-success"></span> Running
-		{% elif node['state'] == 'pending' %}
-			<span class="glyphicon glyphicon-time text-warning"></span> Pending
-		{% elif node['state'] == 'stopping' %}
-			<span class="glyphicon glyphicon-time text-warning"></span> Stopping
-		{% elif node['state'] == 'stopped' %}
-			<span class="glyphicon glyphicon-minus-sign text-danger"></span> Stopped
-		{% else %}
-			<span class="glyphicon glyphicon-info-sign text-primary"></span> {{ node['state'] }}</span>
-		{% endif %}
+	{% if node['state'] == 'running' %}
+		<span class="glyphicon glyphicon-ok-sign text-success"></span> Running
+	{% elif node['state'] == 'pending' %}
+		<span class="glyphicon glyphicon-time text-warning"></span> Pending
+	{% elif node['state'] == 'stopping' %}
+		<span class="glyphicon glyphicon-time text-warning"></span> Stopping
+	{% elif node['state'] == 'stopped' %}
+		<span class="glyphicon glyphicon-minus-sign text-danger"></span> Stopped
+	{% else %}
+		<span class="glyphicon glyphicon-info-sign text-primary"></span> {{ node['state'] }}</span>
+	{% endif %}
 	</h4>
-
-	<h5>
-		<a href={{ url_for('node_stats', node_id=node.id) }}><span class="glyphicon glyphicon-search"></span> Statistics</a>
-	</h5>
 
 	<div class="btn-group" role="group" style="margin-bottom: 20px">
 		<a href={{ url_for('start_node', node_id=node.id) }} type="button" class="btn btn-default {{ 'disabled' if node['state'] in ['running', 'pending', 'stopping', 'shutting-down', 'terminated'] }}"><span class="glyphicon glyphicon-play"></span> Start</a>
 		<a href={{ url_for('stop_node', node_id=node.id) }} type="button" class="btn btn-default {{ 'disabled' if node['state'] in ['stopped', 'pending', 'stopping', 'shutting-down', 'terminated'] }}"><span class="glyphicon glyphicon-pause"></span> Stop</a>
 		<a href={{ url_for('terminate_node', node_id=node.id) }} type="button" class="btn btn-default {{ 'disabled' if node['state'] in ['pending', 'stopping', 'shutting-down', 'terminated'] }}"><span class="glyphicon glyphicon-remove"></span> Terminate</a>
 	</div>
+
+	<h5>
+		<a href={{ url_for('node_stats', node_id=node.id) }}><span class="glyphicon glyphicon-search"></span> Statistics</a>
+	</h5>
 {% endblock %}
 
 
