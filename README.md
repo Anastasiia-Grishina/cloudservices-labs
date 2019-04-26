@@ -20,6 +20,10 @@ This web application allows to manage AWS storage, instances (virtual machines) 
 - Bootstrap - web page organization
 
 ## Demo
+![](Instances.png)
+![](Create-instance.png)
+![](Manage-instances.png)
+![](Monitor-instances.png)
 
 
 ## Acknowledgements
